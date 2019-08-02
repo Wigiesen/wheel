@@ -22,6 +22,7 @@ if (isset($_SESSION['invite_code'])) {
 ```
 
 4. /addons/ewei_shopv2/site.php 添加函数
+```php
 /**
  * [qrcode_invte 二维码推广设置]
  * @return [type] [description]
@@ -36,21 +37,28 @@ public function qrcode_invte(){
 		pdo_query("UPDATE ".tablename('ewei_shop_qrcodetg_qrcode')." SET amount = amount + 1 WHERE invite_code = '".$_SESSION['invite_code']."'");
 	}
 }
+```
 
 5. /addons/ewei_shopv2/site.php doMobileMobile函数里添加代码
-$this->qrcode_invte();
+`$this->qrcode_invte();`
 
 6. /addons/ewei_shopv2/core/web/order/op.php finish函数中 extract($opdata); 下面添加代码
+```php
 //----------------推广二维码逻辑----------------
 pdo_update('ewei_shop_qrcodetg_log', array('order_status' => 2), array('orderid' => $item['id']));
 //---------------推广二维码逻辑结束-------------
+```
 
 7. /addons/ewei_shopv2/core/web/order/op.php fetch函数中	if ($item['isverify'] == 1) 逻辑下面添加代码
+```php
 //----------------推广二维码逻辑----------------
 pdo_update('ewei_shop_qrcodetg_log', array('order_status' => 2), array('orderid' => $item['id']));
 //---------------推广二维码逻辑结束-------------
+```
 
 8. /addons/ewei_shopv2/core/model/order.php payResult函数中 $order = pdo_fetch(xxxx) 后添加代码
+```php
 //----------------推广二维码逻辑----------------
 pdo_update('ewei_shop_qrcodetg_log', array('order_status' => 1), array('orderid' => $order['id']));
 //---------------推广二维码逻辑结束-------------
+```
