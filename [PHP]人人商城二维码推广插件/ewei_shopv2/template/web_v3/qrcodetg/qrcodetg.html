@@ -1,0 +1,262 @@
+{template '_header'}
+<div class="page-header">
+    当前位置：<span class="text-primary">二维码推广 - 管理入口 </span>
+</div>
+<div class="page-content">
+   <form class="form-horizontal">
+	    <div class="page-toolbar m-b-sm m-t-sm">
+	        <span class="pull-left">{php echo tpl_daterange('time', array('sm'=>true, 'placeholder'=>'二维码生成时间'),true);}</span>
+	        <div class="input-group">
+				<input type="text" class="form-control input-sm"  name="keyword" value="{$_GPC['keyword']}" placeholder="推广人、手机号、微信"/>
+				<span class="input-group-btn"><a class="btn btn-primary">搜索</a></span>
+	        </div>
+	    </div>
+	    <div class='page-table-header'>
+	        <a class='btn btn-primary btn-sm' href="{php echo webUrl('qrcodetg.createqrcode')}"><i class='fa fa-plus'></i> 添加二维码</a>
+          <a class='btn btn-default btn-sm global_setting'><i class='fa fa-cog'></i> 全局设置</a>
+	    </div>
+	    <table class="table table-hover table-responsive">
+	    	<thead class="navbar-inner">
+	            <tr>
+	                <th style="width: 50px;">ID</th>
+	                <th>扫码数</th>
+	                <th>发码人</th>
+	                <th>推广人</th>
+	                <th>手机</th>
+	                <th>微信</th>
+	                <th style="width: 15%">生成时间<br>截止时间</th>
+	                <th>状态</th>
+	                <th style="width: 20%">操作</th>
+	            </tr>
+            </thead>
+            <tbody>
+                {loop $list $item}
+                    <tr>
+                        <td>{$item['id']}</td>
+                        <td style="color:red;">{$item['amount']}</td>
+                        <td>{$item['leader']}</td>
+                        <td>{$item['promoter']}</td>
+                        <td>{$item['phone']}</td>
+                        <td>{$item['wechat']}</td>
+                        <td>
+                            {php echo date('Y-m-d H:i:s', $item['add_time']);}
+                            <br>
+                            {php echo date('Y-m-d H:i:s', $item['end_time']);}
+                        </td>
+                        <td>
+                            {if $item['status'] == 1}
+                            <b class="label label-success">正常</b>
+                            {elseif $item['status'] == 2}
+                            <b class="label label-info">过期</b>
+                            {elseif $item['status'] == 0}
+                            <b class="label label-danger">禁止</b>
+                            {/if}
+                        </td>
+                        <td>
+                            <!-- 订单列表按钮 -->
+                            <a class="btn  btn-op btn-operation" href="{php echo webUrl('qrcodetg.info', array('id' => $item['id'], 'promoter' => $item['promoter']))}">
+                                <span data-toggle="tooltip" data-placement="top" data-original-title="查看详情、提现">
+                                    <i class='icow icow-dingdan2'></i>
+                                </span>
+                            </a>
+                            <!-- 分销二维码 -->
+                            <a class="btn btn-op btn-operation qrcode_open" data-url="{$item['qrcode_img']}">
+                                <span data-toggle="tooltip" data-placement="top" data-original-title="推广二维码">
+                                   <i class='icow icow-tuiguang'></i>
+                                </span>
+                            </a>
+                            <!-- 复制链接 -->
+                            <a href="javascript:;" class='btn btn-op btn-operation js-clip' data-url="{$item['qrcode_link']}">
+                                <span data-toggle="tooltip" data-placement="top"  data-original-title="复制链接">
+                                   <i class='icow icow-lianjie2'></i>
+                                </span>
+                            </a>
+                            <!-- 编辑 -->
+                            <a class='btn btn-op btn-operation' href="{php echo webUrl('qrcodetg.createqrcode', array('is_edit' => $item['id']))}">
+                                <span data-toggle="tooltip" data-placement="top"  data-original-title="编辑">
+                                   <i class='icow icow-bianji2'></i>
+                                </span>
+                            </a>
+                            <!-- 删除 -->
+                            <a class='btn btn-op btn-operation del' data-id="{$item['id']}">
+                                <span data-toggle="tooltip" data-placement="top"  data-original-title="删除">
+                                   <i class='icow icow-shanchu2'></i>
+                                </span>
+                            </a>                        
+                        </td>
+                    </tr>                
+                {/loop}
+
+            </tbody>
+	    </table>
+  </form>
+</div>
+<!-- 二维码弹出框 -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="qrcode_alert">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content" style="width: 500px;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title msg_title">二维码</h4>
+        </div>
+        <div class="modal-body">
+            <img src="#" class="img-thumbnail center-block" id="qrcode_img" style="width: 300px;">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!-- 全局设置 -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="global_setting_window">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title msg_title">全局参数设置</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label for="proportion" class="col-sm-3 control-label">全局分成比例</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="比例百分比" id="proportion" style="float: left;width: 100px;" value="{$param['proportion']}">
+                <b style="line-height: 32px;padding-left: 10px;">%</b>
+              </div>
+            </div>
+          </form>
+        </div>        
+        <div class="modal-footer">
+          <input type="hidden" id="del_id">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="save_setting">保存</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+<!-- 信息提示框 -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" id="msg_alert">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title msg_title">通知信息</h4>
+        </div>
+        <div class="modal-body msg_body">
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+ </div>
+
+<!-- 删除提示框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="del_view">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">删除提示</h4>
+      </div>
+      <div class="modal-body text-center">
+        <p>你确定要删除吗？删除之后不可恢复。</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="del_id">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="del_qrcode">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+    //点击弹出二维码框
+    $(".qrcode_open").click(function(){
+        var url = $(this).attr('data-url');
+        $("#qrcode_img").attr('src', url);
+        $("#qrcode_alert").modal('show');
+    })
+
+    //删除弹出框
+    $(".del").click(function(){
+        var id = $(this).attr('data-id');
+        $("#del_id").val(id);
+        $("#del_view").modal('show');
+    });
+
+    //点击弹出全局设置框
+    $(".global_setting").click(function(){
+        $("#global_setting_window").modal('show');
+    })
+
+    //保存全局设置
+    $("#save_setting").click(function(){
+        var proportion = $("#proportion").val();
+        $.ajax({
+            type:'post',  
+            url:"{php echo webUrl('qrcodetg.save_setting')}",
+            dataType:'json',  
+            data:{
+              proportion:proportion
+            },
+            success:function(json){ 
+                if(json.message == 'success'){
+                  $('#global_setting_window').modal('hide');
+                  $('.msg_body').html('保存成功');
+                  $('#msg_alert').modal('show');
+                  setTimeout(function(){
+                    $('#msg_alert').modal('hide');
+                  },1000); 
+                }else{  
+                  $('#global_setting_window').modal('hide');
+                  $('.msg_body').html('保存失败或未修改任何内容');
+                  $('#msg_alert').modal('show');
+                }
+                return;
+            },
+            error:function(){
+              $('#global_setting_window').modal('hide');
+              $('.msg_body').html('通信错误');
+              $('#msg_alert').modal('show');
+              return;
+            }
+        });
+    })
+
+
+    //删除
+    $("#del_qrcode").click(function(){
+        var id = $("#del_id").val();
+        $.ajax({
+            type:'post',  
+            url:"{php echo webUrl('qrcodetg.del')}",
+            dataType:'json',  
+            data:{
+              id:id
+            },
+            success:function(json){ 
+                if(json.message == 'success'){
+                  $('#del_view').modal('hide');
+                  $('.msg_body').html('删除成功');
+                  $('#msg_alert').modal('show');
+                  setTimeout(function(){
+                    window.location.href = "{php echo webUrl('qrcodetg.main')}";
+                  },1000); 
+                }else{  
+                  $('#del_view').modal('hide');
+                  $('.msg_body').html('删除失败');
+                  $('#msg_alert').modal('show');
+                }
+                return;
+            },
+            error:function(){
+              $('#del_view').modal('hide');
+              $('.msg_body').html('通信错误');
+              $('#msg_alert').modal('show');
+              return;
+            }
+        });
+    })
+
+</script>
+{template '_footer'}
