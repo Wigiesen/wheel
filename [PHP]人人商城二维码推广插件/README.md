@@ -3,6 +3,7 @@
 2.导入 qrcodetg.sql 到数据库
 
 3. /addons/ewei_shopv2/core/mobile/order/create.php 大约3454行 $orderid = pdo_insertid(); 下面写入
+```php
 //----------------推广二维码逻辑----------------
 if (isset($_SESSION['invite_code'])) {
 	$tg_data['invite_code'] = $_SESSION['invite_code'];
@@ -18,6 +19,7 @@ if (isset($_SESSION['invite_code'])) {
 	pdo_insert('ims_ewei_shop_qrcodetg_log', $tg_data);
 }
 //---------------推广二维码逻辑结束-------------
+```
 
 4. /addons/ewei_shopv2/site.php 添加函数
 /**
