@@ -21,11 +21,11 @@ class WDGJ
 
         $dbConfig = [
             'hostname' 			 => '',  	//数据库地址
-            'dbname'   			 => '',			//数据库名称
-            'username' 			 => '',			//数据库账号
-            'password' 			 => '',			//数据库密码
-            'prefix'   			 => '',				//数据库表前缀
-            'charset'  			 => 'utf8'			//数据库编码
+            'dbname'   			 => '',		//数据库名称
+            'username' 			 => '',		//数据库账号
+            'password' 			 => '',		//数据库密码
+            'prefix'   			 => '',		//数据库表前缀
+            'charset'  			 => 'utf8'	//数据库编码
         ];
         $this->DB = Db::getInstance($dbConfig);
     }
@@ -209,8 +209,8 @@ class WDGJ
             "orderStatus" =>4,
             "deliveryTime"=>strtotime($SndDate),
             "Ouid"        =>1
-		], ['orderId' => $OrderNO]);
-		echo "<?xml version='1.0' encoding='gb2312'?><rsp><result>1</result></rsp>";
+        ], ['orderId' => $OrderNO]);
+        echo "<?xml version='1.0' encoding='gb2312'?><rsp><result>1</result></rsp>";
     }
 }
 
@@ -443,8 +443,8 @@ switch ($_REQUEST['mType']) {
         break;
     case 'mUpdateStock':
         $WDGJ->mUpdateStock();
-		break;
-	case 'mSndGoods':
+        break;
+    case 'mSndGoods':
         $WDGJ->mSndGoods();
         break;
     case 'test':
