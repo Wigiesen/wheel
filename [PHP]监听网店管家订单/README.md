@@ -38,7 +38,7 @@ Windows php_sqlsrv 扩展已经在包内(根据自身PHP版本替换dll，并修
 
 6.添加扩展
 
-`echo "extension = pdo_sqlsrv.so" >> /php所在目录/etc/php.ini`
+`echo "extension = sqlsrv.so" >> /php所在目录/etc/php.ini`
 
 7.重启PHP-FPM并查看是否安装成功
 
