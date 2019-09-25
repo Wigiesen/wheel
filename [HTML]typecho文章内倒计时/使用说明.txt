@@ -1,0 +1,8 @@
+1.将countdown.html文件放到你的站点目录下
+2.后台新建一篇空白文章发布
+3.到博客数据库里 typecho_contents 表下找到你发布的空白文章
+4.将 文章HTML代码.html 里的iframe标签src内容替换成你的
+<iframe src="https://你的域名/countdown.html" frameborder="0" id="iframe_main"></iframe>
+5.复制 文章HTML代码.html 里的所有内容，替换掉你空白文章的 text 字段，一定要清空干净默认Markdown生成文章主体内容(否则会以Markdown格式解析文章内容)
+6.完成
+

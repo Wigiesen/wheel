@@ -1,0 +1,148 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+@import url("https://fonts.googleapis.com/css?family=Aleo");
+:root {
+  font-family: "Aleo", sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background: rgb(119, 13, 13);
+  background: radial-gradient(
+    circle,
+    rgba(172, 20, 20, 0.92) 64%,
+    rgba(61, 0, 0, 0.6) 100%
+  );
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+
+.label {
+  font-size: 2.4rem;
+  background: url("https://img.xinyu19.com/themes/6368077651977322227241996_3.png");
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: moveBg 30s linear infinite;
+}
+
+@keyframes moveBg {
+  0% {
+    background-position: 0% 30%;
+  }
+  100% {
+    background-position: 1000% 500%;
+  }
+}
+
+.middle {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  user-select: none;
+}
+
+.time {
+  color: #ffe400;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+}
+
+.time span {
+  padding: 0 14px;
+  font-size: 0.8rem;
+}
+
+.time span div {
+  font-size: 3rem;
+}
+
+@media (max-width: 740px) {
+  .label {
+    font-size: 1.7rem;
+  }
+  .time span {
+    padding: 0 16px;
+    font-size: 0.6rem;
+  }
+  .time span div {
+    font-size: 2rem;
+  }
+}
+</style>
+</head>
+<body>
+<div class="middle">
+	<h1 class="label">距离华诞70周年还剩</h1>
+	<div class="time">
+		<span>
+		<div id="d">
+			00
+		</div>
+		天 </span> <span>
+		<div id="h">
+			00
+		</div>
+		小时 </span> <span>
+		<div id="m">
+			00
+		</div>
+		分钟 </span> <span>
+		<div id="s">
+			00
+		</div>
+		秒 </span>
+  </div>
+  <h1 class="label">提前祝</h1>
+  <h1 class="label">祖国生日快乐！</h1>
+  <h1 class="label">大家国庆愉快！</h1>
+</div>
+
+<script>
+////////////////////////////////////////////////////////////
+// Simple CountDown Clock
+const comingdate = new Date("Oct 1, 2019 00:00:00");
+const d = document.getElementById("d");
+const h = document.getElementById("h");
+const m = document.getElementById("m");
+const s = document.getElementById("s");
+
+const countdown = setInterval(() => {
+  const now   = new Date();
+  const des   = comingdate.getTime() - now.getTime();
+  const days  = Math.floor(des / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((des % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins  = Math.floor((des % (1000 * 60 * 60)) / (1000 * 60));
+  const secs  = Math.floor((des % (1000 * 60)) / 1000);
+  if (days <= 0 && hours <= 0 && mins <= 0 && secs <=0 ){
+    clearInterval(countdown);
+    d.innerHTML = '00';
+    h.innerHTML = '00';
+    m.innerHTML = '00';
+    s.innerHTML = '00';
+  }else{
+    d.innerHTML = getTrueNumber(days);
+    h.innerHTML = getTrueNumber(hours);
+    m.innerHTML = getTrueNumber(mins);
+    s.innerHTML = getTrueNumber(secs);
+  }
+}, 1000);
+const getTrueNumber = x => (x < 10 ? "0" + x : x);
+</script>
+</body>
+</html>
