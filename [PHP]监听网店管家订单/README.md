@@ -24,11 +24,13 @@ Windows php_sqlsrv 扩展已经在包内(根据自身PHP版本替换dll，并修
 
 `tar -zxvf sqlsrv-5.6.1.tgz`
 
-`cd pdo_sqlsrv-5.3.0`
+`cd sqlsrv-5.6.1`
 
 5.安装并编译
 
 1).执行PHP目录下 `phpize`
+
+	eg: `/www/server/php/73/bin/phpize`
 
 2).sqlsrv源码包目录下执行
 
@@ -42,4 +44,4 @@ Windows php_sqlsrv 扩展已经在包内(根据自身PHP版本替换dll，并修
 
 7.重启PHP-FPM并查看是否安装成功
 
-`/etc/init.d/php-fpm reload`
+`/etc/init.d/php-fpm-73 reload`
