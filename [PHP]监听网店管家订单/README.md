@@ -8,6 +8,8 @@ Windows php_sqlsrv 扩展已经在包内(根据自身PHP版本替换dll，并修
 
 =========Linux生产环境配置SQL SERVER扩展=========
 
+注：经过CentOS 7.x版本、Ubuntu 18 - 14版本都会出现ODBC驱动TCP链接问题，暂时只能在Win下使用；
+
 1.加入微软mssql源
 
 `curl https://packages.microsoft.com/config/rhel/7/prod.repo > /etc/yum.repos.d/mssqlrelease.repo`
