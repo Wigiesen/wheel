@@ -21,6 +21,9 @@ function sendTemplateData($lastID, $newID){
 		
 		// 商品详情
 		$goodsInfo = $DB->findAll("select TradeGoodsName,GoodsCount from G_API_TradeGoods where BillID = {$i}");
+
+		// 今日店铺支付订单数量
+		$orderCount =  $DB->find("select count(*) as total from G_API_TradeList where ShopID = {$orderInfo['ShopID']} and datediff(day,GetTime,getdate()) = 0")['total'];
 		
 		// 拼合数据
 		$orderInfo['TotalMoney'] = sprintf("%.2f", $orderInfo['TotalMoney']);
