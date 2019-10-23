@@ -24,7 +24,7 @@ function sendTemplateData($lastID, $newID){
 
 		// 今日店铺支付订单数量
 		$orderCount =  $DB->find("select count(*) as total from G_API_TradeList where ShopID = {$orderInfo['ShopID']} and datediff(day,GetTime,getdate()) = 0")['total'];
-		
+
 		// 拼合数据
 		$orderInfo['TotalMoney'] = sprintf("%.2f", $orderInfo['TotalMoney']);
 		$orderInfo['shopName'] = $shopName;
@@ -54,7 +54,7 @@ function sendTemplateData($lastID, $newID){
 		// 微信模板数据生成
 		$wxTemaplteData = array(
 			'first' => array(
-				'value' => "一条来自{$orderInfo['shopName']}的订单，请您及时处理。"
+				'value' => "一条来自【{$orderInfo['shopName']}】的订单，请您及时处理。"
 			),
 			'keyword1' => ['value' => $orderInfo['TradeNO']],
 			'keyword2' => ['value' => $goodsInfoString],
@@ -62,7 +62,7 @@ function sendTemplateData($lastID, $newID){
 			'keyword4' => ['value' => $orderInfo['Phone']],
 			'keyword5' => ['value' => $orderInfo['addr']],
 			'remark' => array(
-				'value' => "您还可以点击本消息通知查看最近7天内的所有订单"
+				'value' => "截至当前，{$orderInfo['shopName']}今日已支付订单{$orderCount}个"
 			),
 		);
 		$wxTemaplteData = base64_encode(json_encode($wxTemaplteData, true));
