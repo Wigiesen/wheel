@@ -28,8 +28,8 @@ class WechatApi
         $this->iniFile = new iniFile($this->iniFile);
         //读取微信access_token数据
         $accessInfo = $this->iniFile->getCategory('access');
-        //如果access_token为空，或expires_in过期时间小于当前时间1分钟，就重新获取access_token
-        if (empty($accessInfo['access_token']) || time() - 60 > $accessInfo['expires_in']) {
+        //如果access_token为空，或expires_in离过期不足，就重新获取access_token
+        if (empty($accessInfo['access_token']) || (time() + 600) > $accessInfo['expires_in']) {
             $res = $this->getAccessToken();
             if (!isset($res['errcode'])) {
                 $this->iniFile->updItem('access', [
