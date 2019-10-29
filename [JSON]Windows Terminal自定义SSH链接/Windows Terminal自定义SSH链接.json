@@ -1,0 +1,24 @@
+// 将以下json配置修改好之后写入profiles.json中的profiles中，确保json格式正确
+{
+  "acrylicOpacity": 0.5,
+  "closeOnExit": true,
+  // 颜色主题，可以查找其他主题替换
+  "colorScheme": "One Half Dark",
+  // 这里填写用户名、ip地址
+  "commandline": "ssh 用户名@ip地址",
+  "cursorColor": "#FFFFFF",
+  "cursorShape": "bar",
+  // 这里可以自定义ssh使用的字体
+  "fontFace": "Fira Code",
+  "fontSize": 10,
+  // 可以去 https://www.guidgen.com/ 生成GUID
+  "guid": "{6fcafea6-cbad-4d0e-a897-ad95cf832b13}",
+  "historySize": 9001,
+  "icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
+  // SSH显示的名称
+  "name": "Linux玩具机",
+  "padding": "0, 0, 0, 0",
+  "snapOnInput": true,
+  "startingDirectory": "",
+  "useAcrylic": false
+}
