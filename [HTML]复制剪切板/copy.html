@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/clipboard.js/2.0.4/clipboard.min.js"></script>
+</head>
+<body>
+    <button data-clipboard-text='张三,13936953695,重庆市重庆市渝中区XX大街332号' class='copyInfo'>复制</button>
+    <button data-clipboard-text='李四,15812347890,北京市北京市朝阳区亚运村路269号' class='copyInfo'>复制</button>
+    <button data-clipboard-text='王五,17612365895,广东省深圳市泰勒大厦7715号' class='copyInfo'>复制</button>
+    <script>
+        var clipboard = new ClipboardJS('.copyInfo');
+        clipboard.on('success', function(e) {
+            var info = e.text;
+            console.log(info);
+            e.clearSelection();
+        });
+        clipboard.on('error', function(e) {
+            console.error('Action:', e.action);
+            console.error('Trigger:', e.trigger);
+        });
+    </script>
+</body>
+</html>
